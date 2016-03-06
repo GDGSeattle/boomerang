@@ -48,15 +48,15 @@ angular.module('gdgXBoomerang')
 .factory('Config', function () {
     return {
         // TODO Modify these to configure your app
-        'name'          : 'GDG Space Coast',
-        'id'            : '103959793061819610212',
-        'googleApi'     : 'AIzaSyA9ALjr2iWvhf3Rsz9-bH0cEcDcrdkpuAg',
-        'pwaId'         : '5915725140705884785', // Picasa Web Album id, must belong to Google+ id above
-        'domain'        : 'http://www.gdgspacecoast.org',
-        'twitter'       : 'gdgspacecoast',
-        'facebook'      : 'gdgspacecoast',
-        'youtube'       : 'UCkiYHK3IZMk5XsYZ626b9Rw',
-        'meetup'        : 'gdgspacecoast',
+        'name'          : 'GDG Seattle',
+        'id'            : '104304419342230315027',
+        'googleApi'     : 'AIzaSyB9MOcBwx-T2RupDg_GeYgGIpQRiiu-iSs',
+        'pwaId'         : '', // Picasa Web Album id, must belong to Google+ id above
+        'domain'        : 'http://www.gdgdevfest2015.com',
+        'twitter'       : 'seattlegdg',
+        'facebook'      : '',
+        'youtube'       : 'UCWfeS6EKrOrq1YfzTtZJfug',
+        'meetup'        : 'seattle-gdg',
         // Change to 'EEEE, MMMM d, y - H:mm' for 24 hour time format.
         'dateFormat'    : 'EEEE, MMMM d, y - h:mm a',
         'cover' : {
@@ -501,33 +501,6 @@ angular.module('gdgXBoomerang')
         });
 });
 
-'use strict';
-
-angular.module('gdgXBoomerang')
-.directive('gplusPerson', function ($http, $filter, Config) {
-    return {
-        restrict: 'EA',
-        templateUrl: 'app/organizers/components/gplus_person.html',
-        scope: {
-            gplusId: '='
-        },
-        link: function (scope) {
-            scope.$watch('gplusId', function (oldVal, newVal) {
-                if (newVal) {
-                    $http.jsonp('https://www.googleapis.com/plus/v1/people/' + newVal +
-                        '?callback=JSON_CALLBACK&fields=aboutMe%2CdisplayName%2Cimage&key=' + Config.googleApi)
-                        .success(function (data) {
-                            if (data && data.image && data.image.url) {
-                                data.image.url = data.image.url.replace('sz=50', 'sz=170');
-                            }
-                            scope.person = data;
-                        });
-                }
-            });
-        }
-    };
-});
-
 angular.module('gdgXBoomerang')
 .directive('gplusAlbum', function () {
     return {
@@ -609,5 +582,32 @@ angular.module('gdgXBoomerang')
 .directive('newsItemFooter', function () {
     return {
         templateUrl: 'app/news/components/newsItemFooter.html'
+    };
+});
+
+'use strict';
+
+angular.module('gdgXBoomerang')
+.directive('gplusPerson', function ($http, $filter, Config) {
+    return {
+        restrict: 'EA',
+        templateUrl: 'app/organizers/components/gplus_person.html',
+        scope: {
+            gplusId: '='
+        },
+        link: function (scope) {
+            scope.$watch('gplusId', function (oldVal, newVal) {
+                if (newVal) {
+                    $http.jsonp('https://www.googleapis.com/plus/v1/people/' + newVal +
+                        '?callback=JSON_CALLBACK&fields=aboutMe%2CdisplayName%2Cimage&key=' + Config.googleApi)
+                        .success(function (data) {
+                            if (data && data.image && data.image.url) {
+                                data.image.url = data.image.url.replace('sz=50', 'sz=170');
+                            }
+                            scope.person = data;
+                        });
+                }
+            });
+        }
     };
 });
